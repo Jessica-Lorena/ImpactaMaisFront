@@ -38,14 +38,19 @@
 
           <div class="form-group">
             <label class="" for="texto">Texto:</label>
-            <textarea class="form-control" id="texto" rows="3" placeholder="Digite aqui o seu texto"
-              [(ngModel)]='postagem.text_box'></textarea>
+            <textarea class="form-control" id="texto" rows="3" placeholder="Digite aqui o seu texto"            
+              [(ngModel)]='postagem.text_box'>
+              
+
+            </textarea>
+            <small>Insira pelo menos 10 caracteres.</small>
           </div>
 
           <div class="form-group">
             <label class="" for="imagem">Imagem:</label>
             <input type="text" class="form-control" id="imagem"
               placeholder="Entre com o link da sua imagem => https://www..." [(ngModel)]='postagem.imagem'>
+            <small>Insira links com até 8000 caracteres.</small>
           </div>
 
           <div class="row d-flex align-items-end ">
@@ -58,14 +63,42 @@
                 <div class="container-fluid w-100 ">
 
                   <div class="row">
-
+<!-- 
                     <div class="col-md-6">
                       <div class="form-group mt-3 ">
                         <label class="text" for="cidade">Cidade:</label>
                         <input type="text" class="form-control" id="cidade" placeholder="Digite aqui sua cidade"
                           [(ngModel)]='postagem.cidade'>
                       </div>
+                    </div> -->
+
+
+
+
+                    <div class="col-md-6">
+                      <div class="row  d-flex justify-content-center align-items-center">
+                        <div class="col-md-12 ">
+                          <label class="mt-3" for="tema">Escolha um Estado</label>
+                          <select id="estado" name="Estado" class="form-control" (change)="estadoSelecionado($event)" >
+                            <option *ngFor="let item of estados" value={{item.id}}>{{item.name}}</option>
+                          </select>
+                        </div>
+                      </div>
+
+
+                      <div class="row  d-flex justify-content-center align-items-center">
+                        <div class="col-md-12 ">
+                          <label class="mt-3" for="tema">Escolha uma Cidade</label>
+                          <select id="cidade" name="Cidade" class="form-control" [(ngModel)]='postagem.cidade'>
+                            <option *ngFor="let item of cidades" value={{item.name}}>{{item.name}}</option>
+                          </select>
+                        </div>
+                      </div>
                     </div>
+
+
+
+
 
                     <div class="col-md-6">
                       <div class="form-group mt-3 ">
@@ -83,13 +116,15 @@
                   <div class="row">
 
                     <div class="col-md-6">
-                      <label class="" for="tema">Escolha um tema
+                      <label class="" for="tema">Escolha um tema 
 
 
                         <!-- RETIRADO A OPCAO DE INSERIR NOVO TEMA, POIS A REGRA DE NEGOCIO DEFINE QUE O USUARIO NAO PODE CADASTRAR UM NOVO TEMA. TEMAS: ID1: Ajudei, ID2: Info, ID3: Pedido-->
 
                         <!-- <a routerLink="/cadastro-tema">Cadastre um
                       novo</a> -->
+
+
                       </label>
                       <select name="tema" id='tema' class="form-control" [(ngModel)]='idTema' (change)='findByIdTema()'>
                         <option value="" disabled selected>Tema</option>
@@ -103,7 +138,7 @@
                       <label class="" for="tema">Escolha um tipo sanguíneo</label>
                       <select id="tipo-sangue" name="sangue" class="form-control" [(ngModel)]='postagem.sangue'>
                         <option value="" disabled selected>Tipo sanguíneo</option>
-                        <option value="Prefiro não informar">Prefiro não informar</option>
+                        <option value="Não se aplica">Não se aplica</option>
                         <option value="A+">A+</option>
                         <option value="A-">A-</option>
                         <option value="B+">B+</option>
@@ -133,7 +168,7 @@
             </div>
 
             <div class="col-md-12 d-flex justify-content-end ">
-              <button type="button" class="btn btn-outline-info mt-4" (click)='publicar()'>Publicar</button>
+              <button type="button" class="btn botao-pesquisar mt-4" (click)='publicar()'>Publicar</button>
             </div>
 
           </div>
@@ -158,9 +193,9 @@
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
           <a class="nav-item nav-link active text-secondary font-weight-bold" id="nav-home-tab" data-toggle="tab"
             href="#minhas-postagens" role="tab" aria-controls="nav-home" aria-selected="true">Postagens</a>
-
+<!-- 
           <a class="nav-item nav-link text-secondary font-weight-bold" id="nav-profile-tab" data-toggle="tab"
-            href="#postagens-temas" role="tab" aria-controls="nav-profile" aria-selected="false">Postagens por tema</a>
+            href="#postagens-temas" role="tab" aria-controls="nav-profile" aria-selected="false">Postagens por tema</a> -->
         </div>
       </nav>
 
@@ -170,14 +205,26 @@
           aria-labelledby="nav-postagens-tab">
           <div class="row mt-3 mb-3">
             <div class="col-md-10 pr-0">
-              <input class="form-control w-100" type="search" placeholder="Pesquisar postagem" aria-label="Pesquisar"
-                [(ngModel)]='titulo'>
+              <input class="form-control w-100" type="search" placeholder="Pesquisar postagem por título"
+                aria-label="Pesquisar" [(ngModel)]='titulo'>
+
+
+
+
             </div>
-            <div class="col-md-2 pl-0">
-              <button class="btn btn-outline-info w-100" type="button"
+            <div class="col-md-2 pl-0 botao-flex">
+              <button class="btn botao-pesquisar " type="button"
                 (click)='findByTituloPostagem()'>Pesquisar</button>
             </div>
           </div>
+
+          <div class="text-center">
+            <button class="btn text-white w-50 mt-4 mx-2 " style="background-color: var(--primary-red);"
+              (click)='findAllPostagens()'>Ver todas as postagens</button>
+          </div>
+
+
+
 
           <div class="row ">
             <div class="col-md-12 ">
@@ -185,11 +232,11 @@
               <div class="card mt-5" *ngFor='let item of listaPostagens | orderBy: key : reverse'>
                 <div class="card-header">
                   <div class="row d-flex align-items-center 	">
-                    <div class="col-md-8 ">
+                    <div class="col-md-10">
 
                       <h5 class="card-title"> {{item.titulo}} </h5>
 
-                      <small class="mr-3">{{item.tema.descricao}}</small>
+                      <small class="mr-3 ">{{item.tema.descricao}}</small>
                       <small class="mx-3">{{item.cidade}}</small>
                       <small class="mx-3">{{item.nome_hospital}}</small>
 
@@ -198,16 +245,26 @@
 
 
 
-                    <div class="col-md-4">
+                    <div class="col-md-2 ">
 
-                      <button class="mr-3 btn btn-outline-info" [routerLink]="['/editar-post', item.id]">
-                        Editar
-                      </button>
 
-                      <button class="mr-3 btn btn-outline-danger ml-3" [routerLink]="['/delete-post', item.id]">
-                        Apagar
-                      </button>
+                      <div class=" px-0 d-flex justify-content-end align-items-center mt-3 mb-2">
+
+                        <div class="a-out-icon">
+                          <div id="editou" class="editar-icon " [routerLink]="['/editar-post', item.id]"></div>
+                        </div>
+  
+                        <div class="a-out-icon">
+                          <div id="apagou" class="apagar-icon" [routerLink]="['/delete-post', item.id]"></div>
+                        </div>
+
+  
+                      </div>
+
                     </div>
+
+
+
 
 
 
@@ -220,9 +277,50 @@
 
                 <div class="card-body ">
                   <div class="imagem"><img class="imagem" src="{{item.imagem}}" alt=""></div>
-                  <p class="card-text mt-3" aria-describedby="texto"> {{item.text_box}} </p>
-                  <small id="texto" class="form-text m-0 text-muted mb-3 ">
-                    Postado em {{item.data_post | date: 'dd/MM/yyyy '}} às {{item.data_post | date: 'HH:mm'}} </small>
+
+
+                  <!-- ICONES -->
+                  <div class="col-5 px-0 d-flex justify-content-start align-items-center mt-3">
+                    
+                    <div class="a-out-icon">
+                    
+                      <div id="impacto" class="impacto ml-2"></div>
+                      <small class="text-dark impactou-texto">impactar</small>
+                  </div>
+
+
+                    <div class="a-out-icon">
+                     
+                      <div id="coracao" class="coracao ml-3"></div>
+                      <small class="ml-3 text-dark apoiou-texto">apoiar</small>
+                    </div>
+                    
+                  </div>
+                  <!-- / ICONES -->
+
+
+
+                  <p class="card-text text-justify" aria-describedby="texto"> {{item.text_box}} </p>
+
+                  <small id="texto"
+                    class="form-text m-0 text-muted mb-3 d-flex justify-content-between align-items-center">
+                    Postado em {{item.data_post | date: 'dd/MM/yyyy '}} às {{item.data_post | date: 'HH:mm'}}
+
+                    <!-- <div>
+
+                      <button class=" editar mr-3 btn " [routerLink]="['/editar-post', item.id]">
+                        editar
+                      </button>
+
+                      <button class="apagar mr-3 btn  ml-3" [routerLink]="['/delete-post', item.id]">
+                        apagar
+                      </button>
+
+                    </div> -->
+
+                  </small>
+
+
                 </div>
 
               </div>
@@ -248,7 +346,7 @@
                 [(ngModel)]='nomeTema'>
             </div>
             <div class="col-md-2 pl-0">
-              <button class="btn btn-outline-info w-100" type="button" (click)='findByNomeTema()'>Pesquisar</button>
+              <button class="btn botao-pesquisar w-100" type="button" (click)='findByNomeTema()'>Pesquisar</button>
             </div>
           </div>
 
@@ -268,10 +366,54 @@
                     </div>
                   </div>
                   <div class="card-body">
-                    <div class="imagem"><img class="imagem" src="{{item.imagem}}" alt=""></div>
+                   
+                    <div class="imagem"><img class="imagem" src="{{post.imagem}}" alt=""></div>
+
+
+                    <!-- ICONES -->
+                    <div class="col-5 px-0 d-flex justify-content-start align-items-center mt-3">
+                      
+                      <div class="a-out-icon">
+                      
+                        <div id="impacto" class="impacto ml-2"></div>
+                        <small class="text-dark impactou-texto">impactar</small>
+                    </div>
+  
+  
+                      <div class="a-out-icon">
+                       
+                        <div id="coracao" class="coracao ml-3"></div>
+                        <small class="ml-3 text-dark apoiou-texto">apoiar</small>
+                      </div>
+                      
+                    </div>
+                    <!-- / ICONES -->
+
+
+
+
+
                     <p class="card-text" aria-describedby="texto">{{post.text_box}}</p>
-                    <small id="texto" class="form-text m-0 text-muted mb-3 text-monospace">Postado em:
-                      {{post.data_post | date: 'dd/MM/yyyy'}} às {{post.data_post | date: 'HH:mm'}}</small>
+
+                    <small id="texto" 
+                    class="form-text m-0 text-muted mb-3 d-flex justify-content-between align-items-center">
+                    Postado em:{{post.data_post | date: 'dd/MM/yyyy'}} às {{post.data_post | date: 'HH:mm'}}
+
+
+                      <div>
+
+                        <button class=" editar mr-3 btn " [routerLink]="['/editar-post', item.id]">
+                          editar
+                        </button>
+  
+                        <button class="apagar mr-3 btn  ml-3" [routerLink]="['/delete-post', item.id]">
+                          apagar
+                        </button>
+  
+                      </div>
+
+                    </small>
+
                   </div>
                 </div>
               </div>

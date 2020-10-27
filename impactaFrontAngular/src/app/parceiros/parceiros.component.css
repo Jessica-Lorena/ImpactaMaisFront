@@ -1,0 +1,14 @@
+.cont-parceiros{
+    position: fixed;
+    top: 200px;
+    height: 100vh;
+ 
+}
+
+.col{
+    height: auto;
+}
+
+hr{
+    border-color: rgb(139, 139, 139); 
+   }

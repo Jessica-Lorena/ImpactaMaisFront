@@ -3,6 +3,8 @@ import { Postagem } from '../model/Postagem';
 import { Tema } from '../model/Tema';
 import { TemaService } from '../service/tema.service';
 import { PostagemService } from '../service/postagem.service';
+import { AlertasService } from '../service/alertas.service';
+import { getAllStates, getAllCities, getStateCities } from "easy-location-br";
 
 @Component({
   selector: 'app-doacao',
@@ -11,11 +13,17 @@ import { PostagemService } from '../service/postagem.service';
 })
 export class DoacaoComponent implements OnInit {
 
+  estados = []
+  estadoSelecao: string
+  cidades = []
+
   key = 'data_post'
   reverse = true
 
   postagem: Postagem = new Postagem()
   listaPostagens: Postagem[]
+  sangue: string
+  cidade: string
 
   tema: Tema = new Tema()
   listaTemas: Tema[]
@@ -23,14 +31,17 @@ export class DoacaoComponent implements OnInit {
 
   constructor(
     private postagemService: PostagemService,
-    private temaService: TemaService
+    private temaService: TemaService,
+    private alert: AlertasService
   ) { }
 
   ngOnInit(): void {
     window.scroll(0, 0)
 
     this.findAllPostagens()
-    this.findAllTemas()
+    // this.findAllTemas()
+
+    this.estados = getAllStates()
   }
 
 
@@ -40,13 +51,50 @@ export class DoacaoComponent implements OnInit {
     })
   }
 
+  findAllPostagens2() {
+    this.postagemService.getAllPostagens().subscribe((resp: Postagem[]) => {
+      this.listaPostagens = resp
+      window.scroll(0, 600)
+    })
+  }
+
   findAllTemas() {
     this.temaService.getAllTemas().subscribe((resp: Tema[]) => {
       this.listaTemas = resp
     })
   }
 
+  findBySanguePostagem(){
+    if (this.sangue === '') {
+      this.findAllPostagens()      
+    } else {
+      this.postagemService.getBySanguePostagem(this.sangue).subscribe((resp: Postagem[]) => {
+        this.listaPostagens = resp
+        window.scroll(0, 800)
+      })
+    }  
+  }
 
-  
+  findByCidadePostagem(){
+    if (this.cidade === '') {
+      this.findAllPostagens()      
+    } else {
+      this.postagemService.getByCidadePostagem(this.cidade).subscribe((resp: Postagem[]) => {
+        this.listaPostagens = resp
+        window.scroll(0, 900)
+      })
+    }  
+  }
+
+  estadoSelecionado(event:any) {
+    this.estadoSelecao=event.target.value
+    this.cidades = getStateCities(this.estadoSelecao)
+  }
+
+  // FindPostagemPedidos(){
+  //   this.postagemService.getPedidos().subscribe((resp: Postagem[]) => {
+  //     this.listaPostagens = resp
+  //   })
+  // }
 
 }

@@ -14,7 +14,6 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SobreComponent } from './sobre/sobre.component';
 import { CadastroComponent } from './cadastro/cadastro.component';
 import { LoginComponent } from './login/login.component';
-import { LogadoComponent } from './logado/logado.component';
 import { FeedComponent } from './feed/feed.component';
 import { DoacaoComponent } from './doacao/doacao.component';
 import { HospitalComponent } from './hospital/hospital.component';
@@ -26,6 +25,11 @@ import { AlertasComponent } from './alertas/alertas.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NavbarSangueComponent } from './navbar-sangue/navbar-sangue.component';
 import { FooterSangueComponent } from './footer-sangue/footer-sangue.component';
+import { ParceirosComponent } from './parceiros/parceiros.component';
+import { PerfilComponent } from './perfil/perfil.component';
+import { PutPerfilComponent } from './put-perfil/put-perfil.component';
+import { CadastroTemaComponent } from './cadastro-tema/cadastro-tema.component';
+import { DeleteTemaComponent } from './delete-tema/delete-tema.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +41,6 @@ import { FooterSangueComponent } from './footer-sangue/footer-sangue.component';
     SobreComponent,
     CadastroComponent,
     LoginComponent,
-    LogadoComponent,
     FeedComponent,
     DoacaoComponent,
     HospitalComponent,
@@ -47,7 +50,12 @@ import { FooterSangueComponent } from './footer-sangue/footer-sangue.component';
     DeleteHospitalComponent,
     AlertasComponent,
     NavbarSangueComponent,
-    FooterSangueComponent
+    FooterSangueComponent,
+    ParceirosComponent,
+    PerfilComponent,
+    PutPerfilComponent,
+    CadastroTemaComponent,
+    DeleteTemaComponent
   ],
   imports: [
     BrowserModule,
